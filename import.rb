@@ -21,8 +21,6 @@ class Importer
   end
 
   def import(dry_run: true)
-    dry = dry_run?(dry_run)
-
     file_names.each do |file_name|
       title = File.basename(file_name).tr(".md", "")
       original_category = File.dirname(file_name)
@@ -35,7 +33,7 @@ class Importer
         user:     "esa_bot",
       }
 
-      if dry
+      if dry_run?(dry_run)
         pp params.except(:body_md)
         puts
         next
