@@ -22,7 +22,7 @@ class Importer
 
   def import(dry_run: true)
     file_names.each do |file_name|
-      title = File.basename(file_name).tr(".md", "")
+      title = title_from_heading(file_name)
       original_category = File.dirname(file_name)
       params = {
         name:     title,
@@ -61,6 +61,10 @@ class Importer
   def dry_run?(flag)
     flag = flag.to_s.downcase
     flag.match?(/^(1|t|y)/)
+  end
+
+  def title_from_heading(file_name)
+    File.readlines(file_name)[0].tr("# ", "").chomp
   end
 
   def wait_for(seconds)
